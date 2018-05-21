@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<head>
+	<title>7 Cudów Świata</title>
+
+	<style type="text/css">
+	
+		table {
+			border: 1px solid;
+			margin-bottom: 20px;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		input {
+			max-width: 55px;
+		}
+
+	</style>
+</head>
+
+<body>
+	<h1>7 Cudów Świata</h1>
+
+
+	<table id="resultTable">
+		<tr>
+			<td>Player Name</td>
+			<td><input type="text"></td>
+			<td><input type="text"></td>
+			<td><input type="text"></td>
+		</tr>
+
+		<tr>
+			<td>Red Cards</td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+		</tr>
+
+		<tr>
+			<td>Money</td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+		</tr>
+
+		<tr>
+			<td>Wonders</td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+		</tr>
+
+		<tr>
+			<td>Blue Cards</td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+		</tr>
+
+		<tr>
+			<td>Sum</td>
+			<td id="totalP1Display" class="sum"></td>
+			<td id="totalP2Display" class="sum"></td>
+			<td class="sum"></td>
+		</tr>
+
+	</table>
+
+
+
+	<button id="results">Results</button>
+	<button id="addPlayer">Add Player</button>
+	<button id="removePlayer">Remove Player</button>
+	<button id="saveResults">Save Results</button>
+
+	<script type="text/javascript">
+		let seeResults = document.querySelector("#results");
+		let addPlayer = document.querySelector("#addPlayer");
+		let removePlayer = document.querySelector("#removePlayer");
+		let totalDisplay = document.querySelectorAll(".sum");
+		let playersNum = totalDisplay.length;
+
+		let tableValues = document.querySelectorAll(".inputClass");	
+
+		let scores = [];
+		let sorted = [];
+		let total = [];
+
+		//insert proper number of table cells according to number of players
+		function appendColumn() {
+		    let tbl = document.getElementById("resultTable");
+		    // open loop for each row and append cell
+		    createCell(tbl.rows[0].insertCell(tbl.rows[0].cells.length), "input", "text");
+		    for (let i = 1; i < tbl.rows.length - 1; i++) {
+		        createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), "input", "number", "inputClass");
+		    }
+		    createCell(tbl.rows[5].insertCell(tbl.rows[5].cells.length), "div", "", "sum");
+		};
+
+		// create DIV element and append to the table cell
+		function createCell(cell, cellType, inputType, style) {
+		    var added = document.createElement(cellType); // create DIV element
+		    added.setAttribute("class", style);        // set DIV class attribute
+		    added.setAttribute("type", inputType);   
+		    cell.appendChild(added);                   // append DIV to the table cell
+		};
+
+
+		// delete table columns 
+		function deleteColumns() {
+		    let tbl = document.getElementById("resultTable"); // table reference
+		    let lastCol = tbl.rows[0].cells.length - 1;    // set the last column index
+		    if (lastCol >= 3) {
+		    	let i = tbl.rows.length;
+				let j = lastCol;
+		    	// delete cells with index greater then 0 (for each row)
+		    	for (i = 0; i < tbl.rows.length; i++) {
+		            tbl.rows[i].deleteCell(j);
+		        }
+		    } else {
+		    	alert("Minimum number of players is " + lastCol);
+		    }
+
+		};
+
+
+		//creating an array with inputs values
+		function getValues() {	
+			for (let i = 0; i < playersNum * 4; i++) {	
+			 	scores[i] = Number(tableValues[i].value);
+			}
+		};
+
+		//prepare the sorted array
+		function setPlayersNum(){
+			sorted = [];
+			for (let n = 0; n < playersNum; n++){
+				sorted.push([])
+			}
+		};
+
+		//sorting inputs values to the players
+		function sortValues(){
+			for (let n = 0; n < playersNum; n++){	
+				for (let i = n; i < playersNum * 4; i += playersNum){
+					sorted[n].push(scores[i])
+				}
+			}
+		};
+
+		function sumArray(arrSum){
+			let total = 0;
+			arrSum.forEach(function(element){
+				total += element;
+			});
+			return total;
+		};
+		
+		function countTotal() {
+			total = [];
+			for (let i = 0; i < sorted.length; i++){
+				total.push(sumArray(sorted[i]));
+			}
+			for (let n = 0; n < playersNum; n++){
+				totalDisplay[n].textContent = total[n]
+			}
+		};
+
+		
+		//see the results after clicking "Results" button
+		seeResults.addEventListener("click", function(){
+			tableValues = document.querySelectorAll(".inputClass");	
+			totalDisplay = document.querySelectorAll(".sum");
+			playersNum = totalDisplay.length;
+			setPlayersNum();
+			getValues();
+			sortValues();
+			countTotal();
+		});
+		
+		//addPlayer funcionality
+		addPlayer.addEventListener("click", function(){
+			appendColumn()
+		});
+
+		//removePlayer funcionality
+		removePlayer.addEventListener("click", function(){
+			deleteColumns()
+		});
+
+	</script>
+</body>
+</html>
