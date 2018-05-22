@@ -1,67 +1,164 @@
 <!DOCTYPE html>
 <head>
 	<title>7 Cudów Świata</title>
-
+	<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC" rel="stylesheet">
 	<style type="text/css">
 	
+		body {
+			background: url(7WondersBackground.png);
+			background-size: cover;
+			background-repeat: no-repeat;
+			font-family: 'Alegreya Sans SC', sans-serif;
+			min-width: 500px;
+		}
+
 		table {
-			border: 1px solid;
+			border: 2px solid;
+			padding: 8px;
 			margin-bottom: 20px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		h1 {
+			font-size: 4.2em;
+			text-align: center;
 		}
 
 		.hidden {
 			display: none;
 		}
 
-		input {
-			max-width: 55px;
+		.sum{
+			background-color: #fafafa;
 		}
+
+		#playerName {
+			background: url(playerName.png);
+			background-size: cover;
+		}
+
+		#redCards {
+			background: url(redCards.png);
+			background-size: cover;
+		}
+
+		#money {
+			background: url(money.png);
+			background-size: cover;
+			background-position: center;
+		}
+
+		#wonders {
+			background: url(wonders.png);
+			background-size: cover;
+			background-position: center;
+		}
+
+		#blueCards {
+			background: url(blueCards.png);
+			background-size: cover;
+		}
+
+		#goldenCards {
+			background: url(goldenCards.png);
+			background-size: cover;
+		}
+
+		#purpleCards {
+			background: url(purpleCards.png);
+			background-size: cover;
+		}
+
+		#greenCards {
+			background: url(greenCards.png);
+			background-size: cover;
+		}
+
+		#sumPic {
+			background: url(sumPic.png);
+			background-size: cover;
+			background-position: center;
+		}
+
+		td, input {
+		  width: 60px; 
+		  height: 25px;
+		  max-width: 60px;
+		  min-width: 50px; 
+		  max-height: 25px; 
+		  min-height: 25px;
+		  font-family: 'Alegreya Sans SC', sans-serif;
+		  font-size: 20px;
+		  text-align: center;
+		}
+
 
 	</style>
 </head>
 
 <body>
 	<h1>7 Cudów Świata</h1>
-
-
+	
 	<table id="resultTable">
 		<tr>
-			<td>Player Name</td>
+			<td id="playerName"></td>
 			<td><input type="text"></td>
 			<td><input type="text"></td>
 			<td><input type="text"></td>
 		</tr>
 
 		<tr>
-			<td>Red Cards</td>
+			<td id="redCards"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 		</tr>
 
 		<tr>
-			<td>Money</td>
+			<td id="money"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 		</tr>
 
 		<tr>
-			<td>Wonders</td>
+			<td id="wonders"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 		</tr>
 
 		<tr>
-			<td>Blue Cards</td>
+			<td id="blueCards"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 			<td><input type="number" min="0" class="inputClass"></td>
 		</tr>
 
 		<tr>
-			<td>Sum</td>
+			<td id="goldenCards"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+		</tr>
+
+		<tr>
+			<td id="purpleCards"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+		</tr>
+
+		<tr>
+			<td id="greenCards"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+			<td><input type="number" min="0" class="inputClass"></td>
+		</tr>
+
+		<tr>
+			<td id="sumPic"></td>
 			<td id="totalP1Display" class="sum"></td>
 			<td id="totalP2Display" class="sum"></td>
 			<td class="sum"></td>
@@ -69,12 +166,10 @@
 
 	</table>
 
-
-
 	<button id="results">Results</button>
 	<button id="addPlayer">Add Player</button>
 	<button id="removePlayer">Remove Player</button>
-	<button id="saveResults">Save Results</button>
+	<!-- <button id="saveResults">Save Results</button> -->
 
 	<script type="text/javascript">
 		let seeResults = document.querySelector("#results");
@@ -97,7 +192,7 @@
 		    for (let i = 1; i < tbl.rows.length - 1; i++) {
 		        createCell(tbl.rows[i].insertCell(tbl.rows[i].cells.length), "input", "number", "inputClass");
 		    }
-		    createCell(tbl.rows[5].insertCell(tbl.rows[5].cells.length), "div", "", "sum");
+		    createCell(tbl.rows[8].insertCell(tbl.rows[8].cells.length), "div", "", "sum");
 		};
 
 		// create DIV element and append to the table cell
@@ -129,7 +224,7 @@
 
 		//creating an array with inputs values
 		function getValues() {	
-			for (let i = 0; i < playersNum * 4; i++) {	
+			for (let i = 0; i < playersNum * 7; i++) {	
 			 	scores[i] = Number(tableValues[i].value);
 			}
 		};
@@ -145,7 +240,7 @@
 		//sorting inputs values to the players
 		function sortValues(){
 			for (let n = 0; n < playersNum; n++){	
-				for (let i = n; i < playersNum * 4; i += playersNum){
+				for (let i = n; i < playersNum * 7; i += playersNum){
 					sorted[n].push(scores[i])
 				}
 			}
